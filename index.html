@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ritu ke liye ek diya</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Mukta:wght@400;600&display=swap">
+<style>
+:root{color-scheme:dark;--sky:#120a22;--sky-lit:#43201f;--flame:#ffb43b;--core:#fff2c4;--text:#fbe9cf;--muted:#c9a98a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{min-height:100%;margin:0}
+body{background:radial-gradient(ellipse at 50% 90%,#2a1246 0%,var(--sky) 72%);color:var(--text);font-family:'Mukta','Noto Sans Devanagari',sans-serif;display:flex;text-align:center;transition:background 4s ease;overflow-x:hidden}
+body.lit{background:radial-gradient(ellipse at 50% 25%,var(--sky-lit) 0%,var(--sky) 88%)}
+#tint{position:fixed;inset:0;z-index:0;pointer-events:none;background:#ff8a2a;opacity:.2;-webkit-mask:radial-gradient(ellipse at 50% 45%,#000 0,transparent 68%);mask:radial-gradient(ellipse at 50% 45%,#000 0,transparent 68%);transition:background-color 2.4s ease}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+main{position:relative;z-index:2;width:100%;max-width:560px;margin:auto;padding:28px 20px 70px}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;margin:0;text-shadow:0 0 28px rgba(255,180,59,.45);font-size:clamp(2.2rem,9vw,3.4rem);line-height:1.08}
+.hint{color:var(--muted);margin:14px 0 36px;font-size:1.05rem}
+.btn{margin-top:34px;background:rgba(255,180,59,.08);color:var(--core);border:1.5px solid var(--flame);border-radius:999px;padding:15px 40px;font:600 1.1rem 'Mukta',sans-serif;cursor:pointer;animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 18px rgba(255,180,59,.3),inset 0 0 12px rgba(255,180,59,.12)}50%{box-shadow:0 0 42px rgba(255,180,59,.6),inset 0 0 20px rgba(255,180,59,.25)}}
+.btn:focus-visible{outline:2px solid var(--core);outline-offset:4px}
+.hide{display:none}
+.fade{animation:in 1.6s ease both}
+@keyframes in{from{opacity:0}to{opacity:1}}
+#stage.gone{opacity:0;transition:opacity 1.5s;pointer-events:none}
+.rowwrap{position:relative;padding:40px 0}
+.mandala{position:absolute;left:50%;top:50%;width:min(96vw,540px);aspect-ratio:1;margin:calc(min(96vw,540px)/-2) 0 0 calc(min(96vw,540px)/-2);border-radius:50%;background:repeating-conic-gradient(rgba(255,180,59,.25) 0 4deg,transparent 4deg 9deg);-webkit-mask:radial-gradient(circle,transparent 40%,#000 41%,#000 70%,transparent 71%);mask:radial-gradient(circle,transparent 40%,#000 41%,#000 70%,transparent 71%);opacity:.4;animation:spin 90s linear infinite;transition:opacity 4s}
+.mandala.m2{width:min(72vw,400px);margin:calc(min(72vw,400px)/-2) 0 0 calc(min(72vw,400px)/-2);animation-direction:reverse;animation-duration:70s;background:repeating-conic-gradient(rgba(255,120,60,.3) 0 6deg,transparent 6deg 12deg)}
+body.lit .mandala{opacity:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+.row{position:relative;display:flex;justify-content:center;gap:clamp(4px,2vw,16px)}
+.diya{position:relative;width:clamp(58px,17vw,88px);aspect-ratio:100/120;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;animation:nudge 2.6s ease-in-out infinite}
+.diya:nth-child(2){animation-delay:.3s}.diya:nth-child(3){animation-delay:.6s}.diya:nth-child(4){animation-delay:.9s}.diya:nth-child(5){animation-delay:1.2s}
+.diya.on{animation:none}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.diya:focus-visible{outline:2px solid var(--flame);outline-offset:6px;border-radius:12px}
+.diya::before{content:"";position:absolute;inset:-70% -70% -30% -70%;background:radial-gradient(circle at 50% 55%,rgba(255,170,60,.5),transparent 60%);opacity:0;transition:opacity 1.4s;pointer-events:none}
+.diya.on::before{opacity:1}
+.diya svg{position:relative;display:block;width:100%;height:100%;overflow:visible}
+.fl{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0);transition:transform .7s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 0 8px #ffb43b)}
+.diya.on .fl{transform:scale(1);animation:flick 1.7s ease-in-out .7s infinite}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-1.5deg)}35%{transform:scale(1.06,.94) rotate(2deg)}70%{transform:scale(.96,1.05) rotate(-1deg)}}
+.count{color:var(--muted);min-height:1.4em}
+
+/* story */
+.story{position:fixed;inset:0;z-index:3;display:none;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.story.on{display:block}
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;animation:in .9s ease both;transition:opacity 1s ease,transform 1s ease}
+.scene.out{opacity:0;transform:scale(.93)}
+.pwrap{position:relative;width:min(66vw,31vh,300px);margin-bottom:34px;perspective:900px;filter:drop-shadow(0 0 28px rgba(255,160,50,.55))}
+.pw{position:relative;width:100%;overflow:hidden;background:#2a1d1a}
+.pwrap.hw{width:min(78vw,44vh,330px)}
+.pw img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 28%;animation:kb 14s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.14) translateY(-1.5%)}}
+.v-arch{aspect-ratio:9/16;border-radius:999px 999px 16px 16px;border:3px solid var(--flame);animation:archIn 1.7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes archIn{from{clip-path:inset(100% 0 0 0);transform:translateY(40px) scale(.9)}to{clip-path:inset(0);transform:none}}
+.v-iris{aspect-ratio:9/16;border-radius:50%;border:3px solid var(--flame);animation:irisIn 1.8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes irisIn{from{clip-path:circle(0%);transform:rotate(-50deg) scale(1.4)}to{clip-path:circle(72%);transform:none}}
+.v-drop{background:#fdf6ea;padding:10px 10px 40px;border-radius:3px;animation:dropIn 2s both}
+.v-drop img{height:auto;aspect-ratio:9/15}
+@keyframes dropIn{0%{transform:translateY(-120vh) rotate(-22deg)}52%{transform:translateY(0) rotate(5deg)}70%{transform:translateY(-28px) rotate(-3deg)}86%{transform:translateY(0) rotate(2deg)}100%{transform:rotate(-2deg)}}
+.v-heart{aspect-ratio:1;-webkit-clip-path:url(#hc);clip-path:url(#hc);animation:heartIn 1.9s both,beat 1.5s ease-in-out 1.9s infinite}
+@keyframes heartIn{0%{transform:scale(0) rotate(-30deg);opacity:0}60%{transform:scale(1.14) rotate(4deg);opacity:1}80%{transform:scale(.96)}100%{transform:none;opacity:1}}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.07)}30%{transform:scale(1)}45%{transform:scale(1.05)}}
+.v-curtain{aspect-ratio:9/16;border-radius:18px;border:3px solid var(--flame);animation:curtIn 1.7s cubic-bezier(.7,0,.2,1) both}
+@keyframes curtIn{from{clip-path:inset(0 50% 0 50%)}to{clip-path:inset(0 0 0 0)}}
+.v-flip{aspect-ratio:9/16;border-radius:18px;border:3px solid var(--flame);animation:flipIn 1.8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes flipIn{from{transform:rotateY(-100deg) scale(.8);opacity:0}to{transform:none;opacity:1}}
+.ring{position:absolute;inset:-26px;border:1.5px dashed rgba(255,180,59,.5);border-radius:50%;pointer-events:none;opacity:0;animation:spin 24s linear infinite,in 1.5s ease 1.3s forwards}
+.ring::before{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:var(--core);box-shadow:0 0 14px 4px var(--flame)}
+.lines{max-width:19em;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;color:var(--core);font-size:clamp(1.5rem,6.2vw,1.95rem);line-height:1.35;text-shadow:0 0 22px rgba(255,180,59,.5)}
+.lines.big{font-size:clamp(2.1rem,9vw,3.2rem);line-height:1.2;max-width:12em}
+.ln{margin:4px 0}
+.w{display:inline-block;white-space:nowrap}
+.ch{display:inline-block;opacity:0;animation:chin 1s ease forwards}
+@keyframes chin{from{opacity:0;transform:translateY(16px);filter:blur(7px)}to{opacity:1;transform:none;filter:none}}
+.ch.cd{animation-name:cdrop;animation-duration:1.1s}
+@keyframes cdrop{0%{opacity:0;transform:translateY(-46px) rotate(14deg)}60%{opacity:1;transform:translateY(7px) rotate(-3deg)}100%{opacity:1;transform:none}}
+.wd{opacity:0;animation:wdin 1.1s cubic-bezier(.2,.9,.3,1.25) forwards}
+@keyframes wdin{from{opacity:0;transform:translateY(26px) scale(.5) rotate(-8deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.sign{font-family:'Cormorant Garamond',Georgia,serif;font-size:2.4rem;color:var(--flame);margin-top:26px;text-shadow:0 0 26px rgba(255,180,59,.7);opacity:0;animation:in 2.2s ease forwards}
+.rp{opacity:0;margin-top:30px;animation:in 1.5s ease forwards,pulse 2.6s ease-in-out infinite}
+.tap{position:absolute;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));font-size:.85rem;color:var(--muted);opacity:.55;animation:in 2s ease 3s both;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.mandala,.diya,.btn,.diya.on .fl,.pw img,.ring{animation:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="hc" clipPathUnits="objectBoundingBox"><path d="M0.5 0.93C0.12 0.66 -0.04 0.3 0.2 0.1C0.34 -0.01 0.47 0.07 0.5 0.2C0.53 0.07 0.66 -0.01 0.8 0.1C1.04 0.3 0.88 0.66 0.5 0.93Z"/></clipPath></defs></svg>
+<div id="tint"></div>
+<canvas id="fx"></canvas>
+<main>
+  <section id="intro">
+    <h1>Ritu ji, ye Diwali sirf aapke liye hai</h1>
+    <p class="hint">Headphones laga lijiye aur awaaz thodi badha lijiye. 🎧</p>
+    <button class="btn" id="go">Shuru kijiye</button>
+  </section>
+  <section id="stage" class="hide">
+    <h1 id="title">Ek diya jalaiye</h1>
+    <p class="hint" id="hint">Paanch diye hain. Har ek ko chhoo kar jalaiye.</p>
+    <div class="rowwrap"><div class="mandala"></div><div class="mandala m2"></div><div class="row" id="row"></div></div>
+    <div class="count" id="count">0 / 5</div>
+  </section>
+</main>
+<div class="story" id="story"></div>
+<script>
+(function(){
+/* Photos: photo1.jpg ... photo6.jpg isi folder mein rakho. Gaana: diwali.mp3. Lines badalni ho to t mein badlo. */
+var PHOTOS=[
+ {f:'photo1.jpg',t:['Meri madam ji,','aaj ki roshni aapse hi hai.']},
+ {f:'photo2.jpg',t:['Ye muskaan dekh ke,','mera poora din ban jaata hai.']},
+ {f:'photo3.jpg',t:['Aap itni pyaari hain,','ki diye bhi sharma jaayein.']},
+ {f:'photo4.jpg',t:['Duniya ki sabse sundar Diwali,','meri madam ji ki.']},
+ {f:'photo5.jpg',t:['Aap saath hain,','to har din tyohaar hai.']},
+ {f:'photo6.jpg',t:['Door hoon,','par dil aapke paas hi hai.']}
+];
+var MUSIC='diwali.mp3';
+var VARS=['arch','iris','drop','heart','curtain','flip'];
+var TINTS=['#ff8a2a','#ff4f7a','#b06bff','#ffb43b','#ff6a3d','#e0457b','#ffa23a'];
+
+var cv=document.getElementById('fx'),cx=cv.getContext('2d'),W,H,D=Math.min(window.devicePixelRatio||1,2);
+function rs(){W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;cx.setTransform(D,0,0,D,0,0)}
+rs();addEventListener('resize',rs);
+var stars=[],emb=[],fw=[],rk=[],lan=[],sp=[],pet=[],hrt=[],finale=false,running=false,storyOn=false,litN=0,i;
+for(i=0;i<110;i++)stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.3,p:Math.random()*6});
+function burst(x,y,big){var h=[34,42,28,350,48][Math.floor(Math.random()*5)],c=big?90:26;
+  for(var k=0;k<c;k++){var a=Math.random()*6.283,s=(Math.random()*(big?4.6:2.4))+.6;fw.push({x:x,y:y,px:x,py:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:1,h:h+Math.random()*14})}}
+function launch(){rk.push({x:W*(.12+Math.random()*.76),y:H,ty:H*(.1+Math.random()*.35),vy:-(H/48)})}
+function loop(t){
+  cx.globalCompositeOperation='source-over';cx.clearRect(0,0,W,H);cx.globalCompositeOperation='lighter';
+  var j,s;
+  for(j=0;j<stars.length;j++){s=stars[j];cx.fillStyle='rgba(255,240,210,'+(.22+.4*Math.abs(Math.sin(t/900+s.p)))+')';cx.beginPath();cx.arc(s.x*W,s.y*H,s.r,0,6.283);cx.fill()}
+  if(running&&Math.random()<.22+litN*.08)emb.push({x:Math.random()*W,y:H+8,vy:-(.3+Math.random()*.8),r:Math.random()*1.8+.6,l:1,p:Math.random()*6});
+  for(j=emb.length-1;j>=0;j--){s=emb[j];s.y+=s.vy;s.x+=Math.sin(t/700+s.p)*.35;s.l-=.0022;if(s.l<=0){emb.splice(j,1);continue}
+    cx.fillStyle='rgba(255,170,60,'+s.l*.18+')';cx.beginPath();cx.arc(s.x,s.y,s.r*3,0,6.283);cx.fill();
+    cx.fillStyle='rgba(255,215,130,'+s.l*.8+')';cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.283);cx.fill()}
+  if(storyOn){
+    if(Math.random()<.13)pet.push({x:Math.random()*W,y:-12,vy:.7+Math.random()*1.1,p:Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.08,s:5+Math.random()*6,h:18+Math.random()*28});
+    if(Math.random()<.03)hrt.push({x:Math.random()*W,y:H+20,vy:-(.5+Math.random()*.8),p:Math.random()*6,s:12+Math.random()*18});
+    if(Math.random()<.01)launch()}
+  for(j=pet.length-1;j>=0;j--){s=pet[j];s.y+=s.vy;s.x+=Math.sin(t/800+s.p)*.8;s.r+=s.vr;if(s.y>H+20){pet.splice(j,1);continue}
+    cx.save();cx.translate(s.x,s.y);cx.rotate(s.r);cx.fillStyle='hsla('+s.h+',100%,52%,.7)';cx.beginPath();cx.ellipse(0,0,s.s,s.s*.5,0,0,6.283);cx.fill();cx.restore()}
+  cx.textAlign='center';
+  for(j=hrt.length-1;j>=0;j--){s=hrt[j];s.y+=s.vy;s.x+=Math.sin(t/900+s.p)*.5;if(s.y<-30){hrt.splice(j,1);continue}
+    cx.fillStyle='rgba(255,90,140,.6)';cx.font=s.s+'px serif';cx.fillText('\u2665',s.x,s.y)}
+  if(finale&&!storyOn){if(Math.random()<.014)launch();if(Math.random()<.02)lan.push({x:Math.random()*W,y:H+60,s:12+Math.random()*16,vy:-(.25+Math.random()*.35),p:Math.random()*6})}
+  if(storyOn&&Math.random()<.01)lan.push({x:Math.random()*W,y:H+60,s:12+Math.random()*16,vy:-(.25+Math.random()*.35),p:Math.random()*6});
+  for(j=lan.length-1;j>=0;j--){s=lan[j];s.y+=s.vy;if(s.y<-90){lan.splice(j,1);continue}
+    var lx=s.x+Math.sin(t/1600+s.p)*14,g=cx.createRadialGradient(lx,s.y,0,lx,s.y,s.s*3.2);
+    g.addColorStop(0,'rgba(255,170,60,.5)');g.addColorStop(1,'rgba(255,170,60,0)');cx.fillStyle=g;cx.fillRect(lx-s.s*3.2,s.y-s.s*3.2,s.s*6.4,s.s*6.4);
+    cx.fillStyle='rgba(255,150,50,.95)';cx.fillRect(lx-s.s/2,s.y-s.s*.6,s.s,s.s*1.2);
+    cx.fillStyle='rgba(255,236,170,.95)';cx.fillRect(lx-s.s/4,s.y-s.s*.25,s.s/2,s.s*.5)}
+  for(j=rk.length-1;j>=0;j--){s=rk[j];s.y+=s.vy;s.vy*=.985;cx.fillStyle='rgba(255,220,150,.9)';cx.beginPath();cx.arc(s.x,s.y,2,0,6.283);cx.fill();
+    cx.fillStyle='rgba(255,170,60,.25)';cx.beginPath();cx.arc(s.x,s.y+10,3,0,6.283);cx.fill();
+    if(s.y<=s.ty||s.vy>-1.2){burst(s.x,s.y,true);rk.splice(j,1)}}
+  cx.lineWidth=1.6;cx.lineCap='round';
+  for(j=fw.length-1;j>=0;j--){s=fw[j];s.px=s.x;s.py=s.y;s.vy+=.035;s.x+=s.vx;s.y+=s.vy;s.vx*=.985;s.vy*=.985;s.l-=.011;
+    if(s.l<=0){fw.splice(j,1);continue}
+    cx.strokeStyle='hsla('+s.h+',100%,64%,'+s.l+')';cx.beginPath();cx.moveTo(s.px,s.py);cx.lineTo(s.x,s.y);cx.stroke()}
+  for(j=sp.length-1;j>=0;j--){s=sp[j];s.x+=s.vx;s.y+=s.vy;s.l-=.03;if(s.l<=0){sp.splice(j,1);continue}
+    cx.fillStyle='rgba(255,220,140,'+s.l+')';cx.beginPath();cx.arc(s.x,s.y,2.2*s.l,0,6.283);cx.fill()}
+  requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+addEventListener('pointermove',function(e){if(!running||sp.length>120)return;sp.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*1.2,vy:-Math.random()-.2,l:1})});
+
+var AC,bus;
+function pluck(f,v,d){if(!AC)return;var t=AC.currentTime,g=AC.createGain(),o=AC.createOscillator(),o2=AC.createOscillator(),g2=AC.createGain();
+  o.type='triangle';o.frequency.value=f;o2.type='sine';o2.frequency.value=f*2;g2.gain.value=.35;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);o2.connect(g2);g2.connect(g);g.connect(bus);o.start(t);o2.start(t);o.stop(t+d+.1);o2.stop(t+d+.1)}
+function initAC(){try{AC=new(window.AudioContext||window.webkitAudioContext)();
+  bus=AC.createGain();bus.gain.value=.8;bus.connect(AC.destination);
+  var dl=AC.createDelay(),fb=AC.createGain(),dg=AC.createGain();dl.delayTime.value=.45;fb.gain.value=.4;dg.gain.value=.5;
+  bus.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(dg);dg.connect(AC.destination)}catch(e){}}
+function bell(k){pluck([523.25,587.33,659.25,783.99,880][k%5],.14,2.6)}
+
+/* line animation: eff 0 letters blur-in, 1 words pop, 2 letters drop. returns when next line may start */
+function lineIn(el,eff,delay){var txt=el.textContent,words=txt.split(' '),c=0;el.textContent='';
+  words.forEach(function(w,wi){var ws=document.createElement('span');ws.className='w';
+    if(eff===1){ws.classList.add('wd');ws.style.animationDelay=(delay+wi*280)+'ms';ws.textContent=w}
+    else{w.split('').forEach(function(ch){var q=document.createElement('span');q.className='ch'+(eff===2?' cd':'');q.textContent=ch;q.style.animationDelay=(delay+c*62)+'ms';ws.appendChild(q);c++})}
+    el.appendChild(ws);if(wi<words.length-1){el.appendChild(document.createTextNode(' '));c++}});
+  return delay+(eff===1?words.length*280+900:c*62+1000)-350}
+
+var story=document.getElementById('story'),tint=document.getElementById('tint'),S=[],idx=0,timer,cur,last=0;
+function buildScenes(ok){
+  S=[{t:['Happy Diwali,','meri madam ji.'],big:1},{t:['Itni door hoke bhi,','aap meri har roshni mein hain.'],big:1}];
+  ok.forEach(function(p,k){S.push({p:p.f,t:p.t,v:VARS[k%VARS.length]})});
+  S.push({t:['Ye paanch diye maine','aapke liye jalwaaye hain,'],big:1});
+  S.push({t:['taaki aap jahan bhi hon,','thodi si roshni aap tak pahunche.'],big:1});
+  S.push({t:['Main wahan nahi hoon,','par mera dil aapke saath','diya jala raha hai.'],big:1});
+  S.push({t:['Jald milenge.'],big:1,end:1})}
+function render(n){
+  var sc=S[n],el=document.createElement('div'),d=500;idx=n;clearTimeout(timer);last=Date.now();
+  if(cur){var old=cur;old.classList.add('out');setTimeout(function(){old.remove()},1000)}
+  el.className='scene';cur=el;
+  if(sc.p){var wr=document.createElement('div'),pw=document.createElement('div'),im=new Image(),rg=document.createElement('div');
+    wr.className='pwrap'+(sc.v==='heart'?' hw':'');pw.className='pw v-'+sc.v;im.alt='';im.src=sc.p;pw.appendChild(im);wr.appendChild(pw);rg.className='ring';wr.appendChild(rg);el.appendChild(wr);d=1900}
+  var box=document.createElement('div');box.className='lines'+(sc.big?' big':'');
+  sc.t.forEach(function(txt,k){var ln=document.createElement('div');ln.className='ln';ln.textContent=txt;box.appendChild(ln);d=lineIn(ln,(n+k)%3,d)});
+  d+=350;el.appendChild(box);
+  if(sc.end){var sg=document.createElement('div'),rb=document.createElement('button');
+    sg.className='sign';sg.textContent='Aapka Pyara sa sir ji';sg.style.animationDelay=d+'ms';
+    rb.className='btn rp';rb.textContent='Phir se dekhiye';rb.style.animationDelay=(d+1800)+'ms,0ms';
+    rb.addEventListener('click',function(e){e.stopPropagation();render(0)});
+    el.appendChild(sg);el.appendChild(rb)}
+  if(n===0){var tp=document.createElement('div');tp.className='tap';tp.textContent='chhoo kar aage badh sakti hain';el.appendChild(tp)}
+  story.appendChild(el);tint.style.backgroundColor=TINTS[n%TINTS.length];
+  setTimeout(launch,300);if(sc.p||sc.end)setTimeout(launch,1100);if(sc.end){setTimeout(launch,1700);setTimeout(launch,2400)}
+  if(!sc.end)timer=setTimeout(function(){render(n+1)},d+2600)}
+story.addEventListener('click',function(){if(S[idx]&&!S[idx].end&&Date.now()-last>900)render(idx+1)});
+var okPhotos=null;
+(function preload(){var left=PHOTOS.length,ok=[];if(!left){okPhotos=[];return}
+  PHOTOS.forEach(function(p,k){var im=new Image();im.onload=function(){ok[k]=p;fin()};im.onerror=fin;im.src=p.f});
+  function fin(){if(--left===0)okPhotos=ok.filter(Boolean)}})();
+function startStory(){buildScenes(okPhotos||[]);document.getElementById('stage').classList.add('gone');
+  setTimeout(function(){document.getElementById('stage').classList.add('hide');story.classList.add('on');storyOn=true;finale=false;render(0)},1500)}
+
+var n=0,total=5,row=document.getElementById('row'),count=document.getElementById('count');
+function diyaSVG(k){return '<svg viewBox="0 0 100 120" aria-hidden="true"><defs>'+
+ '<linearGradient id="c'+k+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e07c40"/><stop offset="1" stop-color="#6a2a12"/></linearGradient>'+
+ '<radialGradient id="f'+k+'" cx="50%" cy="78%" r="62%"><stop offset="0" stop-color="#fff8d6"/><stop offset=".35" stop-color="#ffc247"/><stop offset=".75" stop-color="#ff7a1a" stop-opacity=".9"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient></defs>'+
+ '<g class="fl"><path d="M50 12C64 38 68 54 50 74C32 54 36 38 50 12Z" fill="url(#f'+k+')"/></g>'+
+ '<path d="M6 80Q50 70 94 80Q88 114 50 114Q12 114 6 80Z" fill="url(#c'+k+')"/>'+
+ '<path d="M6 80Q50 70 94 80" stroke="#f4b070" stroke-width="2.2" fill="none" opacity=".8"/>'+
+ '<path d="M26 96Q50 104 74 96" stroke="#f4b070" stroke-width="1.4" fill="none" opacity=".35"/>'+
+ '<ellipse cx="50" cy="79" rx="11" ry="3.4" fill="#2a120a"/><rect x="48.4" y="66" width="3.2" height="13" rx="1.6" fill="#3a1d10"/></svg>'}
+for(i=0;i<total;i++){(function(k){
+  var b=document.createElement('button');b.className='diya';b.setAttribute('aria-label','Diya '+(k+1)+' jalaiye');
+  b.innerHTML=diyaSVG(k);
+  b.addEventListener('click',function(){
+    if(b.classList.contains('on'))return;
+    b.classList.add('on');bell(k);n++;litN=n;count.textContent=n+' / '+total;
+    var r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.2,false);
+    if(n===total){
+      document.body.classList.add('lit');
+      document.getElementById('title').textContent='Ritu ji, aapke liye \u2728';
+      document.getElementById('hint').textContent='';count.textContent='';
+      [0,1,2,3,4].forEach(function(z){setTimeout(function(){bell(z+2)},z*260)});
+      [0,500,1000,1500,2100].forEach(function(dd){setTimeout(launch,dd)});
+      setTimeout(function(){finale=true},900);
+      setTimeout(startStory,3600)}
+  });
+  row.appendChild(b)})(i)}
+document.getElementById('go').addEventListener('click',function(){
+  initAC();running=true;
+  var a=new Audio(MUSIC);a.loop=true;a.volume=.9;var pr=a.play();if(pr&&pr.catch)pr.catch(function(){});
+  document.getElementById('intro').classList.add('hide');
+  var s=document.getElementById('stage');s.classList.remove('hide');s.classList.add('fade')});
+})();
+</script>
+</body>
+</html>
